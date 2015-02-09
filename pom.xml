@@ -5,7 +5,7 @@
 
     <groupId>org.springframework</groupId>
     <artifactId>gs-convert-jar-to-war-maven</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <packaging>war</packaging>
 
     <properties>
@@ -22,7 +22,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -54,12 +54,11 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <get
-                                                src="http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.zip"
+                                        <mkdir dir="containers"/>
+                                        <get src="http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.zip"
                                                 dest="containers/wildfly-8.2.0.Final.zip"
                                                 verbose="false"/>
-                                        <get
-                                                src="http://mirror.reverse.net/pub/apache/tomcat/tomcat-8/v8.0.18/bin/apache-tomcat-8.0.18.zip"
+                                        <get src="http://mirror.reverse.net/pub/apache/tomcat/tomcat-8/v8.0.18/bin/apache-tomcat-8.0.18.zip"
                                                 dest="containers/apache-tomcat-8.0.18.zip"
                                                 verbose="false"/>
                                     </target>
@@ -107,9 +106,9 @@
                         <configuration>
                             <tasks>
                                 <echo message="deploying to unpacked containers" />
-                                <copy file="target/gs-convert-jar-to-war-maven-0.1.0.war" todir="target/apache-tomcat-8.0.18/webapps"/>
-                                <copy file="target/gs-convert-jar-to-war-maven-0.1.0.war" todir="target/jboss-eap-6.3/standalone/deployments"/>
-                                <copy file="target/gs-convert-jar-to-war-maven-0.1.0.war" todir="target/wildfly-8.2.0.Final/standalone/deployments"/>
+                                <copy file="${project.build.directory}/${project.build.finalName}.war" todir="${project.build.directory}/apache-tomcat-8.0.18/webapps"/>
+                                <copy file="${project.build.directory}/${project.build.finalName}.war" todir="${project.build.directory}/jboss-eap-6.3/standalone/deployments"/>
+                                <copy file="${project.build.directory}/${project.build.finalName}.war" todir="${project.build.directory}/wildfly-8.2.0.Final/standalone/deployments"/>
                             </tasks>
                         </configuration>
                         <goals>
